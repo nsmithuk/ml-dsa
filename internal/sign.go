@@ -7,11 +7,11 @@ import (
 	"errors"
 	"io"
 
-	"github.com/trailofbits/ml-dsa/internal/field"
-	"github.com/trailofbits/ml-dsa/internal/params"
-	"github.com/trailofbits/ml-dsa/internal/ring"
-	"github.com/trailofbits/ml-dsa/internal/util"
-	options "github.com/trailofbits/ml-dsa/options"
+	"github.com/nsmithuk/ml-dsa/internal/field"
+	"github.com/nsmithuk/ml-dsa/internal/params"
+	"github.com/nsmithuk/ml-dsa/internal/ring"
+	"github.com/nsmithuk/ml-dsa/internal/util"
+	options "github.com/nsmithuk/ml-dsa/options"
 )
 
 // Algorithm 7

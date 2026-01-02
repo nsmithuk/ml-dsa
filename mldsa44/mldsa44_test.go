@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"log"
 
-	mldsa44 "github.com/trailofbits/ml-dsa/mldsa44"
-	options "github.com/trailofbits/ml-dsa/options"
+	mldsa44 "github.com/nsmithuk/ml-dsa/mldsa44"
+	options "github.com/nsmithuk/ml-dsa/options"
 )
 
 func Example() {

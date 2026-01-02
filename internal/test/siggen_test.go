@@ -8,9 +8,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	internal "github.com/trailofbits/ml-dsa/internal"
-	"github.com/trailofbits/ml-dsa/internal/params"
-	options "github.com/trailofbits/ml-dsa/options"
+	internal "github.com/nsmithuk/ml-dsa/internal"
+	"github.com/nsmithuk/ml-dsa/internal/params"
+	options "github.com/nsmithuk/ml-dsa/options"
 )
 
 func TestSignatureGeneration(t *testing.T) {

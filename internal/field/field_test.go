@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/trailofbits/ml-dsa/internal/field"
+	"github.com/nsmithuk/ml-dsa/internal/field"
 )
 
 const (

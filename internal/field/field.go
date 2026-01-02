@@ -9,7 +9,7 @@ import (
 	"crypto/subtle"
 	"math/bits"
 
-	"github.com/trailofbits/ml-dsa/internal/params"
+	"github.com/nsmithuk/ml-dsa/internal/params"
 )
 
 // T is the type of field elements F_q, where q = 8380417.

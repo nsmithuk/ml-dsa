@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	internal "github.com/trailofbits/ml-dsa/internal"
-	"github.com/trailofbits/ml-dsa/internal/params"
+	internal "github.com/nsmithuk/ml-dsa/internal"
+	"github.com/nsmithuk/ml-dsa/internal/params"
 )
 
 func TestKeyGeneration(t *testing.T) {

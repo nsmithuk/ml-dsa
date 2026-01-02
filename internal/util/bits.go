@@ -4,8 +4,8 @@ import (
 	"crypto/subtle"
 	"errors"
 
-	"github.com/trailofbits/ml-dsa/internal/params"
-	"github.com/trailofbits/ml-dsa/internal/ring"
+	"github.com/nsmithuk/ml-dsa/internal/params"
+	"github.com/nsmithuk/ml-dsa/internal/ring"
 )
 
 // Algorithm 9

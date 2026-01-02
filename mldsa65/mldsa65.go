@@ -12,9 +12,9 @@ import (
 	"crypto"
 	"io"
 
-	internal "github.com/trailofbits/ml-dsa/internal"
-	"github.com/trailofbits/ml-dsa/internal/params"
-	options "github.com/trailofbits/ml-dsa/options"
+	internal "github.com/nsmithuk/ml-dsa/internal"
+	"github.com/nsmithuk/ml-dsa/internal/params"
+	options "github.com/nsmithuk/ml-dsa/options"
 )
 
 // Package mldsa65 implements the ML-DSA-65 parameter set of the ML-DSA algorithm.

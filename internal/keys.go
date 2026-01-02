@@ -8,9 +8,9 @@ import (
 	"io"
 	"slices"
 
-	"github.com/trailofbits/ml-dsa/internal/params"
-	"github.com/trailofbits/ml-dsa/internal/ring"
-	"github.com/trailofbits/ml-dsa/internal/util"
+	"github.com/nsmithuk/ml-dsa/internal/params"
+	"github.com/nsmithuk/ml-dsa/internal/ring"
+	"github.com/nsmithuk/ml-dsa/internal/util"
 	"golang.org/x/crypto/sha3"
 )
 

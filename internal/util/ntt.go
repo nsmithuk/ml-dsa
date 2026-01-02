@@ -1,9 +1,9 @@
 package util
 
 import (
-	"github.com/trailofbits/ml-dsa/internal/field"
-	"github.com/trailofbits/ml-dsa/internal/params"
-	"github.com/trailofbits/ml-dsa/internal/ring"
+	"github.com/nsmithuk/ml-dsa/internal/field"
+	"github.com/nsmithuk/ml-dsa/internal/params"
+	"github.com/nsmithuk/ml-dsa/internal/ring"
 )
 
 // TODO - make a vector receiver type

@@ -2,12 +2,12 @@
 
 This repository implements [FIPS 204](https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.204.pdf) in Go.
 
-[![Build Status](https://github.com/trailofbits/ml-dsa/actions/workflows/ci.yml/badge.svg)](https://github.com/trailofbits/ml-dsa/actions/workflows/ci.yml)
+[![Build Status](https://github.com/nsmithuk/ml-dsa/actions/workflows/ci.yml/badge.svg)](https://github.com/nsmithuk/ml-dsa/actions/workflows/ci.yml)
 
 ## Installation
 
 ```terminal
-go get https://github.com/trailofbits/ml-dsa
+go get https://github.com/nsmithuk/ml-dsa
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ go get https://github.com/trailofbits/ml-dsa
 ```go
 import(
 	"log"
-    mldsa65 "github.com/trailofbits/ml-dsa/mldsa65"
+    mldsa65 "github.com/nsmithuk/ml-dsa/mldsa65"
 )
 
 pub, priv, err := mldsa65.GenerateKeyPair(nil)
