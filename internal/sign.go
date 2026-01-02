@@ -25,16 +25,17 @@ import (
 // We do not currently support the use fo an "external mu"
 //
 // Returns a signature as a []byte
-func (sk *SigningKey) SignInternal(Mprime, rnd []byte) []byte {
+func (sk *SigningKey) SignInternal(mu, rnd []byte) []byte {
 	cfg := sk.cfg
 	s1hat := util.NttVec(sk.s1) // TODO - consider caching s1hat, s2hat, t0hat, Ahat
 	s2hat := util.NttVec(sk.s2)
 	t0hat := util.NttVec(sk.t0)
 	Ahat := util.ExpandA(sk.cfg, sk.rho[:])
 
-	// mu <- H(BytesToBits(tr) || M', 64)
-	mu := make([]byte, 64)
-	util.H(mu, append(sk.tr[:], Mprime...))
+	// Moved up a layer...
+	//// mu <- H(BytesToBits(tr) || M', 64)
+	//mu := make([]byte, 64)
+	//util.H(mu, append(sk.tr[:], Mprime...))
 
 	// rhopp <- H(K || rnd || mu, 64)
 	rhopp := make([]byte, 64)
@@ -92,7 +93,7 @@ func (sk *SigningKey) SignInternal(Mprime, rnd []byte) []byte {
 // Sign takes a message and a context and returns a signature.
 // Only pure ML-DSA is supported.
 // Context must be less than 256 bytes long, or else this function will return an error.
-func (sk *SigningKey) Sign(rng io.Reader, message []byte, opts crypto.SignerOpts) ([]byte, error) {
+func (sk *SigningKey) Sign(rng io.Reader, message []byte, opts crypto.SignerOpts, externalMu bool) ([]byte, error) {
 	var h crypto.Hash
 	ctx := []byte{}
 
@@ -124,12 +125,26 @@ func (sk *SigningKey) Sign(rng io.Reader, message []byte, opts crypto.SignerOpts
 		return nil, errors.New("rng.Read() returned too few bytes")
 	}
 
-	Mprime := make([]byte, 0, len(ctx)+len(message)+2)
-	Mprime = append(Mprime, byte(0), byte(len(ctx)))
-	Mprime = append(Mprime, ctx...)
-	Mprime = append(Mprime, message...)
+	var mu []byte
 
-	sigma := sk.SignInternal(Mprime, rnd)
+	if externalMu {
+		if len(message) != 64 {
+			return nil, errors.New("message must be 64 bytes when using an external MU")
+		}
+		mu = message
+	} else {
+		// We use the package's original implementation
+		Mprime := make([]byte, 0, len(ctx)+len(message)+2)
+		Mprime = append(Mprime, byte(0), byte(len(ctx)))
+		Mprime = append(Mprime, ctx...)
+		Mprime = append(Mprime, message...)
+
+		// mu <- H(BytesToBits(tr) || M', 64)
+		mu = make([]byte, 64)
+		util.H(mu, append(sk.tr[:], Mprime...))
+	}
+
+	sigma := sk.SignInternal(mu, rnd)
 	return sigma, nil
 }
 
