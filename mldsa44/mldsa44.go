@@ -55,6 +55,11 @@ func (priv *PrivateKey) Public() crypto.PublicKey {
 	return priv.sk.Public()
 }
 
+// PublicKey returns an instance of this package's `PublicKey`, corresponding to the ML-DSA private key.
+func (priv *PrivateKey) PublicKey() *PublicKey {
+	return &PublicKey{*priv.sk.Public()}
+}
+
 // Returns the 1312-byte public key as defined in FIPS 204.
 func (pub *PublicKey) Bytes() []byte {
 	return pub.pk.Bytes()
