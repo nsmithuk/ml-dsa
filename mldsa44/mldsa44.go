@@ -15,6 +15,7 @@ import (
 	internal "github.com/trailofbits/ml-dsa/internal"
 	"github.com/trailofbits/ml-dsa/internal/params"
 	options "github.com/trailofbits/ml-dsa/options"
+	"github.com/trailofbits/ml-dsa/types"
 )
 
 // Package mldsa44 implements the ML-DSA-44 parameter set of the ML-DSA algorithm.
@@ -33,7 +34,7 @@ type PrivateKey struct {
 // If rng is nil, [crypto/rand] is used.
 //
 // [crypto/rand]: https://pkg.go.dev/crypto/rand
-func GenerateKeyPair(rng io.Reader) (*PublicKey, *PrivateKey, error) {
+func GenerateKeyPair(rng io.Reader) (types.PublicKey, types.PrivateKey, error) {
 	sk, pk, err := internal.GenerateKeyPair(params.MLDSA44Cfg, rng)
 
 	if err != nil {
@@ -56,7 +57,7 @@ func (priv *PrivateKey) Public() crypto.PublicKey {
 }
 
 // PublicKey returns an instance of this package's `PublicKey`, corresponding to the ML-DSA private key.
-func (priv *PrivateKey) PublicKey() *PublicKey {
+func (priv *PrivateKey) PublicKey() types.PublicKey {
 	return &PublicKey{*priv.sk.Public()}
 }
 
@@ -66,7 +67,7 @@ func (pub *PublicKey) Bytes() []byte {
 }
 
 // Decodes a 1312-byte public key as defined in FIPS 204.
-func PublicKeyFromBytes(bytes []byte) (*PublicKey, error) {
+func PublicKeyFromBytes(bytes []byte) (types.PublicKey, error) {
 	pk, err := internal.PkDecode(params.MLDSA44Cfg, bytes)
 	if err != nil {
 		return nil, err
@@ -95,7 +96,7 @@ func (priv *PrivateKey) Seed() ([]byte, error) {
 
 // Reads a private key from a 32-byte seed.
 // Returns an error if the seed is not 32 bytes.
-func PrivateKeyFromSeed(seed []byte) (*PrivateKey, error) {
+func PrivateKeyFromSeed(seed []byte) (types.PrivateKey, error) {
 	sk, err := internal.FromSeed(params.MLDSA44Cfg, seed)
 	if err != nil {
 		return nil, err
@@ -111,7 +112,7 @@ func (priv *PrivateKey) EncodeExpanded() []byte {
 
 // Decodes an expanded 2560-byte private key as defined in FIPS 204.
 // This is not the recommended way to store the private key, unless necessary for compatibility.
-func PrivateKeyFromExpanded(expanded []byte) (*PrivateKey, error) {
+func PrivateKeyFromExpanded(expanded []byte) (types.PrivateKey, error) {
 	sk, err := internal.SkDecode(params.MLDSA44Cfg, expanded)
 	if err != nil {
 		return nil, err
