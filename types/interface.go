@@ -2,6 +2,7 @@ package types
 
 import (
 	"crypto"
+	"io"
 
 	"github.com/trailofbits/ml-dsa/options"
 )
@@ -17,4 +18,5 @@ type PrivateKey interface {
 	PublicKey() PublicKey
 	Seed() ([]byte, error)
 	EncodeExpanded() []byte
+	SignWithExternalMU(rand io.Reader, mu []byte, opts crypto.SignerOpts) ([]byte, error)
 }
