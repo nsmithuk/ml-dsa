@@ -158,7 +158,7 @@ func (sk *SigningKey) Sign(rng io.Reader, message []byte, opts crypto.SignerOpts
 //
 // Returns true if the signature is valid.
 // Returns false otherwise (even if an error occurs).
-func (vk *VerifyingKey) VerifyInternal(Mprime, sigma []byte) bool {
+func (vk *VerifyingKey) VerifyInternal(mu, sigma []byte) bool {
 	cfg := vk.cfg
 	c_tilde, z, h, err := util.SigDecode(cfg, sigma)
 	if err != nil {
@@ -166,10 +166,12 @@ func (vk *VerifyingKey) VerifyInternal(Mprime, sigma []byte) bool {
 	}
 
 	Ahat := util.ExpandA(cfg, vk.rho[:])
-	tr := make([]byte, 64)
-	util.H(tr, vk.Bytes())
-	mu := make([]byte, 64)
-	util.H(mu, append(tr, Mprime...))
+
+	// Moved up a layer...
+	//tr := make([]byte, 64)
+	//util.H(tr, vk.Bytes())
+	//mu := make([]byte, 64)
+	//util.H(mu, append(tr, Mprime...))
 
 	c := util.SampleInBall(cfg, c_tilde)
 
@@ -201,7 +203,7 @@ func (vk *VerifyingKey) VerifyInternal(Mprime, sigma []byte) bool {
 // Only pure ML-DSA is supported. opts.HashFunc() must return 0.
 //
 // opts may be nil, in which case empty context is used.
-func (vk *VerifyingKey) Verify(msg, sig []byte, opts *options.Options) bool {
+func (vk *VerifyingKey) Verify(msg, sig []byte, opts *options.Options, externalMu bool) bool {
 	ctx := []byte{}
 	if opts != nil {
 		if opts.HashFunc() != 0 {
@@ -214,10 +216,24 @@ func (vk *VerifyingKey) Verify(msg, sig []byte, opts *options.Options) bool {
 		return false
 	}
 
-	Mprime := make([]byte, 0, len(ctx)+len(msg)+2)
-	Mprime = append(Mprime, byte(0), byte(len(ctx)))
-	Mprime = append(Mprime, ctx...)
-	Mprime = append(Mprime, msg...)
+	var mu []byte
 
-	return vk.VerifyInternal(Mprime, sig)
+	if externalMu {
+		if len(msg) != 64 {
+			return false
+		}
+		mu = msg
+	} else {
+		Mprime := make([]byte, 0, len(ctx)+len(msg)+2)
+		Mprime = append(Mprime, byte(0), byte(len(ctx)))
+		Mprime = append(Mprime, ctx...)
+		Mprime = append(Mprime, msg...)
+
+		tr := make([]byte, 64)
+		util.H(tr, vk.Bytes())
+		mu = make([]byte, 64)
+		util.H(mu, append(tr, Mprime...))
+	}
+
+	return vk.VerifyInternal(mu, sig)
 }

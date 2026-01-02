@@ -44,11 +44,15 @@ func GenerateKeyPair(rng io.Reader) (types.PublicKey, types.PrivateKey, error) {
 }
 
 func (pub *PublicKey) Verify(msg, sig []byte) bool {
-	return pub.pk.Verify(msg, sig, nil)
+	return pub.pk.Verify(msg, sig, nil, false)
+}
+
+func (pub *PublicKey) VerifyWithExternalMU(msg, sig []byte) bool {
+	return pub.pk.Verify(msg, sig, nil, true)
 }
 
 func (pub *PublicKey) VerifyWithOptions(msg, sig []byte, opts *options.Options) bool {
-	return pub.pk.Verify(msg, sig, opts)
+	return pub.pk.Verify(msg, sig, opts, false)
 }
 
 // Public returns the public key corresponding to the ML-DSA private key.

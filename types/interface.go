@@ -10,6 +10,7 @@ import (
 type PublicKey interface {
 	Bytes() []byte
 	Verify(msg, sig []byte) bool
+	VerifyWithExternalMU(msg, sig []byte) bool
 	VerifyWithOptions(msg, sig []byte, opts *options.Options) bool
 }
 
