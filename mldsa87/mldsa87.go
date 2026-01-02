@@ -83,7 +83,11 @@ func PublicKeyFromBytes(bytes []byte) (types.PublicKey, error) {
 //
 // [crypto/rand]: https://pkg.go.dev/crypto/rand
 func (priv *PrivateKey) Sign(rand io.Reader, message []byte, opts crypto.SignerOpts) ([]byte, error) {
-	return priv.sk.Sign(rand, message, opts)
+	return priv.sk.Sign(rand, message, opts, false)
+}
+
+func (priv *PrivateKey) SignWithExternalMU(rand io.Reader, mu []byte, opts crypto.SignerOpts) ([]byte, error) {
+	return priv.sk.Sign(rand, mu, opts, true)
 }
 
 // Returns the seed used to generate the private key.
